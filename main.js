@@ -32,7 +32,7 @@ function draw() {
             edges.forEach(e => {
                 if (e.start === selectedVertex || e.end === selectedVertex) {
                     e.control1 = e.start.copy().lerp(e.end, 0.25);
-                    e.control2 = e.start.copy().lerp(e.end, 0.25);
+                    e.control2 = e.start.copy().lerp(e.end, 0.75);
                 }
             })
         }
@@ -44,7 +44,7 @@ function draw() {
         edges.forEach(e => {
             if (traversedEdges.includes(e)) {
                 e.control1 = e.start.copy().lerp(e.end, 0.25);
-                e.control2 = e.start.copy().lerp(e.end, 0.25);
+                e.control2 = e.start.copy().lerp(e.end, 0.75);
             }
         })
     }
@@ -84,6 +84,9 @@ function draw() {
 }
 
 function mousePressed() {
+    if (contract) {
+        return;
+    }
     const mousePos = new p5.Vector(mouseX, mouseY);
     let chosen = false;
     vertexes.forEach(v => {
@@ -114,7 +117,7 @@ function mouseReleased() {
 }
 
 function keyPressed() {
-    if (key === "a") {
+    if (key === "a" && !contract) {
         if (edges.length > 0) {
             const centroid = new p5.Vector();
             vertexes.forEach(v => {
@@ -161,7 +164,7 @@ function keyPressed() {
         contract = false;
         edgeEnd;
     }
-    if (key === "k") {
+    if (key === "k" && !contract) {
         vertexes.forEach(v => {
             let chance = 1 + edges.filter(e => e.start === v || e.end === v).length;
             vertexes.forEach(v2 => {
@@ -182,7 +185,7 @@ function keyPressed() {
             })
         })
     }
-    if (key === "l") {
+    if (key === "l" && !contract) {
         for (let i = 0; i < 10; i++) {
             let pos;
             for (let i = 0; i < 100; i++) {
